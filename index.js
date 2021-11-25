@@ -52,6 +52,110 @@ showOperation.onclick = () => {
   hideSection(sectionReports);
 };
 
+// // MOSTRAR U OCULTAR FILTROS
+
+// const filterLabel = document.querySelector("#filter-label");
+
+// const filters = document.querySelector("#filters");
+
+// filterLabel.onclick = () => {
+//   filters.classList.toggle("is-hidden");
+//   if (filters.classList.contains("is-hidden")) {
+//     return (filterLabel.innerHTML = "Mostrar filtros");
+//   } else {
+//     return (filterLabel.innerHTML = "Ocultar filtros");
+//   }
+// };
+
+//AGREGAR LA OPERACION A LA SECCION BALANCE
+
+const addOperationButton = document.querySelector("#agregar-operaciones-boton");
+const aggregateOperations = document.querySelector("#aggregate-operations");
+const noneOperations = document.querySelector("#none-operations");
+const cancelOperation = document.querySelector(
+  "#cancelar-agregar-operaciones-boton"
+);
+const inputDescription = document.querySelector("#description-input");
+const inputMonto = document.querySelector("#monto-input");
+const inputDate = document.querySelector("#date-input");
+const selectCategories = document.querySelector("#categories-select");
+const selectTypeOperation = document.querySelector("#tipo-operacion");
+
+cancelOperation.onclick = () => {
+  sectionBalance.classList.remove("is-hidden");
+  sectionOperation.classList.add("is-hidden");
+};
+
+const newOperation = [];
+
+addOperationButton.onclick = () => {
+  sectionOperation.classList.add("is-hidden");
+  sectionBalance.classList.remove("is-hidden");
+  aggregateOperations.classList.remove("is-hidden");
+  noneOperations.classList.add("is-hidden");
+
+  const description = inputDescription.value;
+  const monto = inputMonto.value;
+  const tipo =
+    selectTypeOperation.options[selectTypeOperation.selectedIndex].value;
+  const categoria =
+    selectCategories.options[selectCategories.selectedIndex].value;
+  const fecha = inputDate.value;
+
+  const elementosForm = {
+    descripcion: description,
+    monto: monto,
+    tipo: tipo,
+    categoria: categoria,
+    fecha: fecha,
+  };
+
+  newOperation.push(elementosForm);
+  console.log("ivana " + newOperation)
+};
+
+// Convertir newOperation a un JSON
+
+const convertirAJSON = (objeto) => {
+  return JSON.stringify(objeto);
+};
+
+// Guardar newOperation en localStorage
+
+const guardarEnLocalStorage = (objetoJavascript, clave) => {
+  return localStorage.setItem(clave, convertirAJSON(objetoJavascript));
+};
+
+// Leer localStorage
+
+const leerDesdeLocalStorage = (clave) => {
+  return convertirDesdeJSON(localStorage.getItem(clave));
+};
+
+// Convertirlo a JS
+
+const convertirDesdeJSON = (objetoJSON) => {
+  return JSON.parse(objetoJSON);
+};
+
+const newOperationJSON = convertirAJSON(newOperation);
+guardarEnLocalStorage(newOperation, "operaciones");
+convertirDesdeJSON(newOperationJSON);
+leerDesdeLocalStorage("operaciones");
+convertirDesdeJSON(newOperationJSON);
+
+
+
+// Convertirlo a HTML
+
+const descriptionNewOperation = document.querySelector("#description")
+const categoriesNewOperation = document.querySelector("#categories")
+const dateNewOperation = document.querySelector("#date")
+const montoNewOperation = document.querySelector("#monto")
+
+
+
+
 // MOSTRAR U OCULTAR FILTROS
 
 const filterLabel = document.querySelector("#filter-label");
@@ -131,7 +235,9 @@ const getEditCategory = (id) => {
 
   const confirmCategoryButton = document.querySelector("#edit-category-button");
   const inputCategory = document.querySelector("#edit-category-input");
-  const cancelCategoryButton = document.querySelector("#cancel-category-button");
+  const cancelCategoryButton = document.querySelector(
+    "#cancel-category-button"
+  );
 
   cancelCategoryButton.onclick = () => {
     showSection(sectionCategories);
@@ -139,7 +245,6 @@ const getEditCategory = (id) => {
   };
 
   confirmCategoryButton.onclick = () => {
-
     const categoryValue = inputCategory.value;
     categories[id] = categoryValue;
 
