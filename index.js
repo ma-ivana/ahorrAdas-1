@@ -111,6 +111,7 @@ addOperationButton.onclick = () => {
   };
 
   newOperation.push(elementosForm);
+  console.log("ivana " + newOperation)
 };
 
 // Convertir newOperation a un JSON
